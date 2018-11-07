@@ -12,7 +12,7 @@ import java.util.TimeZone;
 public class TimeController {
 
     @GetMapping("time")
-    public String displayTime(ModelMap modelMap, @RequestParam(name = "city",defaultValue = "Asia/Ho-Chi-Minh")String city) {
+    public String displayTime(ModelMap modelMap, @RequestParam(name = "city", required = false, defaultValue = "Asia/Ho_Chi_Minh") String city) {
 
         Date date = new Date();
         TimeZone local = TimeZone.getDefault();
@@ -20,6 +20,9 @@ public class TimeController {
 
         long locale_time = date.getTime() + (locale.getRawOffset() - local.getRawOffset());
         date.setTime(locale_time);
+
+        modelMap.addAttribute("city", city);
+        modelMap.addAttribute("date", date);
 
         return "index";
     }
